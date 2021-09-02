@@ -136,6 +136,7 @@ ul {
 
 #lista-cursos .row {
     margin-bottom:20px;
+    
 }
 .agregar-carrito {
     margin:10px 0;
@@ -151,6 +152,7 @@ ul {
         text-align: left;
     }
 }
+
 .info-card  {
     padding: 10px 20px;
 }
