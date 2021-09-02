@@ -48,7 +48,16 @@ function carritoHTML () {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>
+                <img src="${curso.imagen}" width="100">
+            </td>
+            <td>
                 ${curso.titulo}
+            </td>
+            <td>
+                ${curso.precio}
+            </td>
+            <td>
+                ${curso.cantidad}
             </td>
         `;
         //Agrega el HTML del carrito en el Tbody
