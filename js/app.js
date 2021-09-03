@@ -30,9 +30,27 @@ function eliminarCurso(e){
     
     if (e.target.classList.contains("borrar-curso") ){
         const cursoId = e.target.getAttribute("data-id")
-        //Elimina del arreglo por el data id
-        articulosCarrito = articulosCarrito.filter(curso => curso.id !== cursoId);
+        
+        const cant = articulosCarrito.some(curso => curso.cantidad > 1);
+        if (cant) {
+            const cursos = articulosCarrito.map(curso => {
+                if (curso.id == cursoId ) {
+                    curso.cantidad--;
+                    return curso; //retorna el objeto actualizado
+                }else{
+                    return curso; //retorna los objetos que no son duplicados
+                }
+            })
+            articulosCarrito = [...cursos];
+            carritoHTML()
+        }else {
+            //Elimina del arreglo por el data id
+            articulosCarrito = articulosCarrito.filter(curso => curso.id !== cursoId);
+            
+            carritoHTML();//Itera sobre el carrito y muestra el HTML
+        }
     }
+    
 }
 
 //Lee el contenido del html y extrae la info del curso
@@ -46,13 +64,11 @@ function leerDatosCurso(curso) {
         cantidad : 1,
     }
     //Revisa si un elemento ya existe en el carrito
-    // console.log(infoCurso)
     const existe = articulosCarrito.some(curso => curso.id == infoCurso.id);
-    if(existe) {
+    if(existe) { //si existe entonces en el map busca por el que coincida por id
         const cursos = articulosCarrito.map(curso =>{
             
             if (curso.id == infoCurso.id ) {
-               
                 curso.cantidad++;
                 return curso; //retorna el objeto actualizado
             }else{
