@@ -8,6 +8,9 @@ cargarEventListeners();
 function cargarEventListeners() {
     //Cuando agregas un curso presionando Agregar al carrito
     listaCursos.addEventListener("click", agregarCurso);
+
+    //Eventos en el carrito
+    carrito.addEventListener("click", eliminarCurso);
 }
 
 //Funciones
@@ -21,11 +24,19 @@ function agregarCurso(e) {
     }
     
 }
+//Eliminar curso del carrito
+function eliminarCurso(e){
+    e.preventDefault();
+    
+    if (e.target.classList.contains("borrar-curso") ){
+        const cursoId = e.target.getAttribute("data-id")
+        //Elimina del arreglo por el data id
+        articulosCarrito = articulosCarrito.filter(curso => curso.id !== cursoId);
+    }
+}
 
 //Lee el contenido del html y extrae la info del curso
 function leerDatosCurso(curso) {
-
-    
     //Objeto con el contenido del curso
     const infoCurso = {
         imagen : curso.querySelector("img").src,
