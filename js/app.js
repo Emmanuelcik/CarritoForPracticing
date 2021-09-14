@@ -4,7 +4,9 @@ const listaCursos = document.querySelector("#lista-cursos");
 const contenedorCarrito = document.querySelector("#lista-carrito #tbody");
 const vaciarCarritoBtn = document.querySelector("#vaciar-carrito");
 let articulosCarrito = []; 
+
 cargarEventListeners();
+
 function cargarEventListeners() {
     //Cuando agregas un curso presionando Agregar al carrito
     listaCursos.addEventListener("click", agregarCurso);
@@ -16,6 +18,11 @@ function cargarEventListeners() {
     vaciarCarritoBtn.addEventListener("click", () => {
         articulosCarrito = [];
         limpiarCarrito();
+    })
+
+    document.addEventListener("DOMContentLoaded", () => {
+        articulosCarrito = JSON.parse( localStorage.getItem("carrito")) || [];
+        carritoHTML();
     })
 }
 
@@ -42,17 +49,20 @@ function eliminarCurso(e){
             const cursos = articulosCarrito.map(curso => {
                 if (curso.id == cursoId ) {
                     curso.cantidad--;
+
                     return curso; //retorna el objeto actualizado
                 }else{
                     return curso; //retorna los objetos que no son duplicados
                 }
             })
+            
             articulosCarrito = [...cursos];
             carritoHTML()
         }else {
             //Elimina del arreglo por el data id
             articulosCarrito = articulosCarrito.filter(curso => curso.id !== cursoId);
             
+            console.log(articulosCarrito);
             carritoHTML();//Itera sobre el carrito y muestra el HTML
         }
     }
@@ -118,6 +128,9 @@ function carritoHTML () {
         //Agrega el HTML del carrito en el Tbody
         contenedorCarrito.appendChild(row);
     }) 
+
+    //Agregar el carrito a storage
+    sincronizarStorage();
 }
 
 function limpiarCarrito () {
@@ -126,4 +139,7 @@ function limpiarCarrito () {
     while(contenedorCarrito.firstChild) {
         contenedorCarrito.removeChild(contenedorCarrito.firstChild);
     }
+}
+function sincronizarStorage(){
+    localStorage.setItem("carrito", JSON.stringify(articulosCarrito));
 }
